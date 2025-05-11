@@ -29,14 +29,6 @@ Visual Studio Enterprise 2019在线安装下载地址:
 
 [https://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=Enterprise&rel=16&ref=developerinsider.co](https://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=Enterprise&rel=16&ref=developerinsider.co)
 
-0/6 懒人包(已经编译好的包基于Win10 22H2，Intel oneAPI 2024，VS2019)
------------------------------------------------------
-
-[https://file.iplcn2.com/Linux/Cygwin64-2.931.rar](https://file.iplcn2.com/Linux/Cygwin64-2.931.rar)
-
-[https://file.iplcn2.com/Linux/intel-mpi-petsc-3.13.6-double.rar](https://file.iplcn2.com/Linux/intel-mpi-petsc-3.13.6-double.rar)
-
-[https://file.iplcn2.com/Linux/intel-mpi-petsc-3.14.6-double.rar](https://file.iplcn2.com/Linux/intel-mpi-petsc-3.14.6-double.rar)
 
 1/6 安装VS2019(包含C++桌面开发)
 -----------------------
