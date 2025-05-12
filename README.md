@@ -3,10 +3,31 @@ Some collected and summarized tutorials
 
 ### Git 配置 HTTP(S) 代理
 ```
-git config --global http.proxy "socks5://127.0.0.1:1080"
-git config --global https.proxy "socks5://127.0.0.1:1080"
+git config --global http.proxy "socks5://127.0.0.1:10808"
+git config --global https.proxy "socks5://127.0.0.1:10808"
+
+#验证是否配置成功
+git config --global --get http.proxy
+git config --global --get https.proxy
+
+#移除代理配置
+git config --global --unset http.proxy
+git config --global --unset https.proxy
 ```
+### Git 配置用户名和邮箱
+```
+git config --global user.name "Your Name"
+git config --global user.email "your.email@example.com"
+
+#验证是否配置成功
+git config --global user.name
+git config --global user.email
+```
+
 ### Git 配置私钥
+`vim ~/.ssh/config`
+
+添加以下内容
 ```
 Host github.com
         IdentityFile ~/.ssh/keyFile
