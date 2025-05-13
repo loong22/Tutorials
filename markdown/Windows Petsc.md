@@ -71,7 +71,7 @@ C:\Program Files (x86)\Intel\oneAPI\mkl\2024.1\bin
 export PATH=$PATH:/usr/bin/
 ```
 
-### 5.2把源码包放在/home/\[用户名\]下,输入下面的命令来解压petsc源码包
+### 5.2把源码包放在/home/[用户名]下,输入下面的命令来解压petsc源码包
 
 ```
 tar zxvf petsc-3.13.6.tar.gz
