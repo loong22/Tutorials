@@ -45,6 +45,16 @@ git clone https://github.com/[name]/[repoName].git
 #打开git clone 下载下来的代码所在的文件夹, 建立远程连接
 git remote add origin git@github.com:[name]/[repoName].git
 
+#查看远程仓库地址, 如果是https则需要更改为ssh
+
+git remote -v
+#https方式输出如下
+origin  https://github.iplcn2.com/loong22/Tutorials.git (fetch)
+origin  https://github.iplcn2.com/loong22/Tutorials.git (push)
+
+#修改为ssh方式
+git remote set-url origin git@github.com:loong22/Tutorials.git
+
 #添加新建文件夹
 git add ./dir 
 
