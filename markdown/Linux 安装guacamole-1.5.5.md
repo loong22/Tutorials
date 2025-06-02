@@ -40,7 +40,7 @@ ufw allow 8080/tcp
 ## 3. 构建Guacamole Server
 ```
 #安装
-wget https://iplcn2.com/file/guacamole-server-1.5.5.tar.gz
+wget https://example.com/file/guacamole-server-1.5.5.tar.gz
 
 tar xzf ~/guacamole-server-1.5.5.tar.gz
 
@@ -92,7 +92,7 @@ sudo systemctl status guacd
 ## 4. 安装Web App
 ```
 
-wget https://iplcn2.com/file/guacamole-1.5.5.war
+wget https://example.com/file/guacamole-1.5.5.war
 
 sudo cp guacamole-1.5.5.war /var/lib/tomcat9/webapps/guacamole.war
 

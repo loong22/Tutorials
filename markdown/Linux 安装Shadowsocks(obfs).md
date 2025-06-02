@@ -16,7 +16,7 @@ yum install gettext gcc autoconf libtool automake make asciidoc xmlto c-ares-dev
 
 安装libsodium
 ```
-wget https://google.iplcn2.com/soft/linux/libsodium-1.0.18.tar.gz
+wget https://example.com/soft/linux/libsodium-1.0.18.tar.gz
 tar xvf libsodium-1.0.18.tar.gz 
 cd libsodium-1.0.18
 ./configure –prefix=/usr && make 
@@ -26,7 +26,7 @@ sudo ldconfig
 
 安装MbedTLS
 ```
-wget https://google.iplcn2.com/soft/linux/mbedtls.tar.gz tar xvf mbedtls.tar.gz 
+wget https://example.com/soft/linux/mbedtls.tar.gz tar xvf mbedtls.tar.gz 
 make SHARED=1 CFLAGS=-fPIC 
 sudo make DESTDIR=/usr install popd 
 sudo ldconfig

@@ -467,20 +467,20 @@ ccmake ../
 ```
 
 #可执行程序路径
-export PATH=$PATH:/home/Loong/bin/mutation++/bin
+export PATH=$PATH:/home/Admin/bin/mutation++/bin
 
 #C头文件
-export C_INCLUDE_PATH=$C_INCLUDE_PATH:/home/Loong/bin/mutation++/include/mutation++
-:/home/Loong/Mutationpp/thirdparty/eigen:/home/Loong/Mutationpp/thirdparty/catch
+export C_INCLUDE_PATH=$C_INCLUDE_PATH:/home/Admin/bin/mutation++/include/mutation++
+:/home/Admin/Mutationpp/thirdparty/eigen:/home/Admin/Mutationpp/thirdparty/catch
 
 #C++头文件
-export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/home/Loong/bin/mutation++/include/mutation++:/home/Loong/Mutationpp/thirdparty/eigen:/home/Loong/Mutationpp/thirdparty/catch
+export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/home/Admin/bin/mutation++/include/mutation++:/home/Admin/Mutationpp/thirdparty/eigen:/home/Admin/Mutationpp/thirdparty/catch
 
 #编译静态库
-export LIBRARY_PATH=$LIBRARY_PATH:/home/Loong/bin/mutation++/lib
+export LIBRARY_PATH=$LIBRARY_PATH:/home/Admin/bin/mutation++/lib
 
 #动态运行库
-export LD_INCLUDE_PATH=$LD_INCLUDE_PATH:/home/Loong/bin/mutation++/lib:/home/Loong/bin/mutation++/bin
+export LD_INCLUDE_PATH=$LD_INCLUDE_PATH:/home/Admin/bin/mutation++/lib:/home/Admin/bin/mutation++/bin
 
 ```
 
@@ -488,7 +488,7 @@ export LD_INCLUDE_PATH=$LD_INCLUDE_PATH:/home/Loong/bin/mutation++/lib:/home/Loo
 
 ```
 #复制编译完成的静态库名(只执行一次)
-cp /home/Loong/bin/mutation++/lib/libmutation++.dll.a /home/Loong/bin/mutation++/lib/libmutation++.a
+cp /home/Admin/bin/mutation++/lib/libmutation++.dll.a /home/Admin/bin/mutation++/lib/libmutation++.a
 
 
 #进入案例文件夹
@@ -508,7 +508,7 @@ g++ O2_dissociation.cpp -o O2_dissociation.cpp.exe -lmutation++
 ```
 #添加路径如下
 添加路径C:\cygwin64\bin
-添加路径C:\cygwin64\home\Loong\bin\mutation++\bin
+添加路径C:\cygwin64\home\Admin\bin\mutation++\bin
 ```
 
 方案二：复制dll文件到生成的exe文件夹内
@@ -517,7 +517,7 @@ g++ O2_dissociation.cpp -o O2_dissociation.cpp.exe -lmutation++
 C:\cygwin64\bin
 路径下的cygwin1.dll, cygstdc++-6.dll, cyggcc_s-seh-1.dll
 
-C:\cygwin64\home\Loong\bin\mutation++\bin
+C:\cygwin64\home\Admin\bin\mutation++\bin
 路径下的cygmutation++.dll
 ```
 

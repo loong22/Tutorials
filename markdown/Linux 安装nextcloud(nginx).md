@@ -293,6 +293,6 @@ https://example.com
 
 #修改/var/www/nextcloud/config/config.php文件如下
 #如果没有就加上
-'overwritehost' => 'cloud.iplcn2.com',
+'overwritehost' => 'cloud.example.com',
 'dbport' => '3306',
 ```

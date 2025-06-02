@@ -49,11 +49,11 @@ git remote add origin git@github.com:[name]/[repoName].git
 
 git remote -v
 #https方式输出如下
-origin  https://github.iplcn2.com/loong22/Tutorials.git (fetch)
-origin  https://github.iplcn2.com/loong22/Tutorials.git (push)
+origin  https://github.example.com/username/Tutorials.git (fetch)
+origin  https://github.example.com/username/Tutorials.git (push)
 
 #修改为ssh方式
-git remote set-url origin git@github.com:loong22/Tutorials.git
+git remote set-url origin git@github.com:username/Tutorials.git
 
 #添加新建文件夹
 git add ./dir 
