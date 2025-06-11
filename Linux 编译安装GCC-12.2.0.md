@@ -45,3 +45,9 @@
      make -j$(nproc)
      make install
      ```
+     如果报错-Werror=array-parameter=, 可以选择 禁用 -Werror
+     ```
+     mkdir build && cd build
+     ../configure --prefix=/usr --disable-werror
+     make
+     ```
