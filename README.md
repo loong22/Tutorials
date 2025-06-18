@@ -33,6 +33,39 @@ Host github.com
         IdentityFile ~/.ssh/keyFileName
         User git
 ```
+# Git
+…or create a new repository on the command line
+```
+#HTTPS
+echo "# ForzaHorizon5-GameSaves" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/cs135711/ForzaHorizon5-GameSaves.git
+git push -u origin main
+
+#SSH
+echo "# ForzaHorizon5-GameSaves" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin git@github.com:cs135711/ForzaHorizon5-GameSaves.git
+git push -u origin main
+```
+…or push an existing repository from the command line
+```
+#HTTPS
+git remote add origin https://github.com/cs135711/ForzaHorizon5-GameSaves.git
+git branch -M main
+git push -u origin main
+
+#SSH
+git remote add origin git@github.com:cs135711/ForzaHorizon5-GameSaves.git
+git branch -M main
+git push -u origin main
+```
 
 ### Git 提交代码
 ```
