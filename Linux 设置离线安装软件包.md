@@ -51,58 +51,6 @@
    cp /var/cache/apt/archives/*.deb ~/packages/
    ```
 
-### 方法 3: 使用 `apt-offline`
-
-`apt-offline` 是一个方便的工具，用于在没有网络的环境中处理 APT 包管理器的下载和安装：
-
-1. **在在线环境中安装 `apt-offline`**：
-
-   ```bash
-   sudo apt-get install apt-offline
-   ```
-
-2. **生成一个签名的包列表**：
-
-   在离线环境中，生成一个签名的包列表（通常是一个 `.sig` 文件）：
-
-   ```bash
-   apt-offline set ~/packages/apt-offline.sig
-   ```
-
-3. **在有网络的环境中下载包**：
-
-   将生成的 `.sig` 文件拷贝到有网络的机器上，并使用 `apt-offline` 下载所需的包：
-
-   ```bash
-   sudo apt-offline get ~/packages/apt-offline.zip
-   ```
-
-4. **将下载的包转移到离线环境**：
-
-   将生成的 `.zip` 文件拷贝回离线环境，并使用 `apt-offline` 安装包：
-
-   ```bash
-   sudo apt-offline install ~/packages/apt-offline.zip
-   ```
-
-### 方法 4: 使用 `aptitude`
-
-`aptitude` 是另一个可以帮助下载依赖的工具。首先安装 `aptitude`：
-
-```bash
-sudo apt-get install aptitude
-```
-
-然后，你可以使用 `aptitude` 来处理包和依赖：
-
-1. **下载软件包及其所有依赖**：
-
-   ```bash
-   sudo aptitude download <package-name>
-   ```
-
-   这将下载软件包及其所有依赖到当前目录。
-
 ### 总结
 
 在离线环境中安装软件包时，确保你下载了所有必需的依赖包是至关重要的。通过手动下载依赖、使用 `apt-get` 或 `apt-offline`，你可以有效地管理和安装软件包及其依赖。在有网络的环境中，确保将所有 `.deb` 文件转移到离线系统并使用 `dpkg` 进行安装。
