@@ -1,144 +1,77 @@
 # Ubuntu
 
-### 方法 1: 手动下载所有依赖
+### 1. 在线机器下载并创建索引
 
-1. **列出软件包的依赖**：
-   在有网络的环境中，你可以使用 `apt-cache` 或 `apt-rdepends` 来列出软件包的所有依赖。
+```
+#!/bin/bash
+set -e
 
-   ```bash
-   apt-cache depends <package-name>
-   ```
+WORKDIR=~/docker_offline_repo
+DEBDIR="$WORKDIR/debs"
 
-   或者，使用 `apt-rdepends` 来查看所有递归依赖：
+# 创建工作目录
+mkdir -p "$DEBDIR"
+cd "$WORKDIR"
 
-   ```bash
-   apt-rdepends <package-name>
-   ```
+# 安装必要工具
+echo "🔧 安装 apt-rdepends、dpkg-dev 和 apt-utils..."
+sudo apt update
+sudo apt install -y apt-rdepends dpkg-dev apt-utils
 
-2. **下载依赖包**：
-   使用 `apt-get download` 或 `apt` 命令分别下载每个依赖包及其版本。例如：
+# 定义目标包
+PACKAGES=("docker.io" "docker-compose" "build-essential")
 
-   ```bash
-   apt-get download <dependency-package>
-   ```
+# 获取递归依赖列表
+echo "📦 分析依赖关系..."
+> packages.txt
+for pkg in "${PACKAGES[@]}"; do
+    apt-rdepends "$pkg"
+done | grep -v "^ " | sort -u >> packages.txt
 
-   确保你下载所有列出的依赖包。
+# 下载缺失的包
+echo "📥 正在检查并下载缺失的 .deb 包..."
+cd "$DEBDIR"
+while read -r pkg; do
+    # 如果该包已存在则跳过
+    if ls "${pkg}"_*.deb &>/dev/null; then
+        echo "✅ 已存在：$pkg"
+    else
+        echo "⬇️ 正在下载：$pkg"
+        apt-get download "$pkg" || echo "⚠️ 下载失败：$pkg"
+    fi
+done < ../packages.txt
 
-### 方法 2: 使用 `apt-get` 下载软件包及其所有依赖
+# 返回主目录生成仓库索引
+cd "$WORKDIR"
 
-1. **创建一个下载目录**：
+echo "🗂️ 生成本地 APT 仓库索引..."
+apt-ftparchive packages debs > Packages
+gzip -c Packages > Packages.gz
+apt-ftparchive release . > Release
 
-   ```bash
-   mkdir ~/packages
-   cd ~/packages
-   ```
+# 打包所有内容
+echo "📦 正在打包..."
+tar -czvf docker_repo.tar.gz debs Packages Packages.gz Release
 
-2. **使用 `apt-get` 下载软件包及其所有依赖**：
-
-   使用 `apt-get` 的 `--download-only` 和 `--reinstall` 选项，可以尝试下载包及其所有依赖：
-
-   ```bash
-   sudo apt-get install --download-only <package-name>
-   ```
-
-   这将下载软件包及其所有依赖到 `/var/cache/apt/archives/` 目录。
-
-3. **复制下载的 `.deb` 文件**：
-
-   将 `/var/cache/apt/archives/` 目录下的 `.deb` 文件复制到你的下载目录：
-
-   ```bash
-   cp /var/cache/apt/archives/*.deb ~/packages/
-   ```
-
-### 总结
-
-在离线环境中安装软件包时，确保你下载了所有必需的依赖包是至关重要的。通过手动下载依赖、使用 `apt-get` 或 `apt-offline`，你可以有效地管理和安装软件包及其依赖。在有网络的环境中，确保将所有 `.deb` 文件转移到离线系统并使用 `dpkg` 进行安装。
-
-
-## 1. 建立apt管理(基于方法2)
-
-是的，在方法 2 中下载的软件包可以在离线环境中使用 `dpkg` 来安装。具体来说，下面是详细的步骤：
-
-### 1.1 **准备下载的软件包**
-
-首先，确保你已经在有网络的环境中下载了所需的 `.deb` 文件，并将它们转移到离线环境中。假设你已经将这些 `.deb` 文件放在 `/home/user/packages/` 目录下。
-
-### 1.2 **安装软件包**
-
-在离线环境中，使用 `dpkg` 命令安装这些软件包：
-
-```bash
-sudo dpkg -i /home/user/packages/*.deb
+echo "✅ 操作完成！请将 docker_repo.tar.gz 拷贝至离线环境使用。"
 ```
 
-### 1.3 **处理依赖问题**
 
-安装软件包时，`dpkg` 可能会报告缺失的依赖项。如果有依赖问题，你可以使用以下命令解决它们：
+## 2. 离线机器建立apt管理
 
-#### **a. 配置尚未配置的包**
-
+解压：
 ```bash
-sudo dpkg --configure -a
+tar -xzvf docker_repo.tar.gz -C /opt/
+```
+添加本地源：
+```bash
+echo "deb [trusted=yes] file:/opt/debs ./" | sudo tee /etc/apt/sources.list.d/offline-docker.list
+sudo apt update
 ```
 
-#### **b. 尝试修复依赖问题**
-
-如果 `dpkg` 报告依赖问题，尝试手动下载缺失的依赖包并安装，或者：
-
+安装软件：
 ```bash
-sudo apt-get install -f
-```
-
-但是，`apt-get` 命令在完全离线的情况下可能不可用。如果 `apt-get` 无法运行，你需要确保所有的依赖包都已经手动下载并安装。你可以使用 `dpkg` 安装这些依赖包：
-
-```bash
-sudo dpkg -i /path/to/dependency-package.deb
-```
-
-### 1.4 **验证安装**
-
-安装完成后，验证软件包是否正确安装并检查是否有任何问题：
-
-```bash
-dpkg -l | grep <package-name>
-```
-
-### 1.5 **创建本地仓库（可选）**
-
-如果你需要更方便地管理离线软件包，可以创建一个本地仓库，如下所示：
-
-#### **a. 创建本地仓库目录**
-
-```bash
-mkdir -p /home/user/local-repo
-```
-
-#### **b. 移动包到本地仓库目录**
-
-```bash
-mv /home/user/packages/*.deb /home/user/local-repo/
-```
-
-#### **c. 生成包索引**
-
-```bash
-cd /home/user/local-repo
-dpkg-scanpackages . /dev/null | gzip -9c > Packages.gz
-```
-
-#### **d. 添加本地仓库到 APT 源列表**
-
-编辑 `/etc/apt/sources.list` 文件，添加以下行：
-
-```bash
-deb [trusted=yes] file:/home/user/local-repo ./
-```
-
-然后更新 APT 包列表：
-
-```bash
-sudo apt-get update
+sudo apt install docker.io docker-compose build-essential
 ```
 
 # Centos
