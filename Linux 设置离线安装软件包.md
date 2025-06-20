@@ -49,11 +49,11 @@ tar -czvf repo.tar.gz debs Packages Packages.gz Release
 
 解压：
 ```bash
-tar -xzvf repo.tar.gz -C /opt/
+tar -xzvf repo.tar.gz -C /opt/repo
 ```
 添加本地源：
 ```bash
-echo "deb [trusted=yes] file:/opt/debs ./" | sudo tee /etc/apt/sources.list.d/offline-docker.list
+echo "deb [trusted=yes] file:/opt/repo ./" | sudo tee /etc/apt/sources.list.d/offline-docker.list
 sudo apt update
 ```
 
