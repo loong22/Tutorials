@@ -12,7 +12,16 @@ mkdir -p /opt/repo
 cd /opt/repo
 
 # 获取所有依赖（递归）
-apt-rdepends docker.io docker-compose build-essential | grep -v "^ " | sort -u > packages.txt
+apt-rdepends docker.io docker-compose build-essential \
+  | grep -v "^ " \
+  | sort -u \
+  | while read pkg; do
+      if apt-cache show "$pkg" | grep -q "Filename:"; then
+        echo "$pkg"
+      else
+        echo "虚拟包已跳过：$pkg" >&2
+      fi
+    done > packages.txt
 ```
 
 ```
