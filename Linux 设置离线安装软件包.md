@@ -6,7 +6,7 @@
 #!/bin/bash
 set -e
 
-WORKDIR=~/docker_offline_repo
+WORKDIR=./
 DEBDIR="$WORKDIR/debs"
 
 # 创建工作目录
