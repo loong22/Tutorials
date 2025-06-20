@@ -3,65 +3,41 @@
 ### 1. 在线机器下载并创建索引
 
 ```
-#!/bin/bash
-set -e
-
-WORKDIR=./
-DEBDIR="$WORKDIR/debs"
-
-# 创建工作目录
-mkdir -p "$DEBDIR"
-cd "$WORKDIR"
-
-# 安装必要工具
-echo "🔧 安装 apt-rdepends、dpkg-dev 和 apt-utils..."
 sudo apt update
-sudo apt install -y apt-rdepends dpkg-dev apt-utils
+sudo apt install apt-rdepends dpkg-dev
+```
 
-# 定义目标包
-PACKAGES=("docker.io" "docker-compose" "build-essential")
+```
+mkdir -p /opt/repo
+cd /opt/repo
 
-# 获取递归依赖列表
-echo "📦 分析依赖关系..."
-> packages.txt
-for pkg in "${PACKAGES[@]}"; do
-    apt-rdepends "$pkg"
-done | grep -v "^ " | sort -u >> packages.txt
+# 获取所有依赖（递归）
+apt-rdepends docker.io docker-compose build-essential | grep -v "^ " | sort -u > packages.txt
+```
 
-# 下载缺失的包
-echo "📥 正在检查并下载缺失的 .deb 包..."
-cd "$DEBDIR"
-while read -r pkg; do
-    # 如果该包已存在则跳过
-    if ls "${pkg}"_*.deb &>/dev/null; then
-        echo "✅ 已存在：$pkg"
-    else
-        echo "⬇️ 正在下载：$pkg"
-        apt-get download "$pkg" || echo "⚠️ 下载失败：$pkg"
-    fi
-done < ../packages.txt
+```
+mkdir debs
+cd debs
 
-# 返回主目录生成仓库索引
-cd "$WORKDIR"
+# 批量下载
+xargs -a ../packages.txt -n 1 apt-get download
+```
 
-echo "🗂️ 生成本地 APT 仓库索引..."
+```
+#生成本地 APT 仓库索引
 apt-ftparchive packages debs > Packages
 gzip -c Packages > Packages.gz
 apt-ftparchive release . > Release
 
 # 打包所有内容
-echo "📦 正在打包..."
-tar -czvf docker_repo.tar.gz debs Packages Packages.gz Release
-
-echo "✅ 操作完成！请将 docker_repo.tar.gz 拷贝至离线环境使用。"
+tar -czvf repo.tar.gz debs Packages Packages.gz Release
 ```
-
 
 ## 2. 离线机器建立apt管理
 
 解压：
 ```bash
-tar -xzvf docker_repo.tar.gz -C /opt/
+tar -xzvf repo.tar.gz -C /opt/
 ```
 添加本地源：
 ```bash
