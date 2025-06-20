@@ -19,6 +19,9 @@ apt-rdepends docker.io docker-compose build-essential | grep -v "^ " | sort -u >
 mkdir debs
 cd debs
 
+sudo chown -R _apt:root /opt/repo/debs
+sudo chmod -R 755 /opt/repo/debs
+
 # 批量下载
 xargs -a ../packages.txt -n 1 apt-get download
 ```
